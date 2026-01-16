@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>TOKOARDAN - DIGITAL</title>
+    <link rel="icon" href="https://files.catbox.moe/gyw58d.png" type="image/png">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* --- 1. SETUP VARIABEL --- */
+        :root {
+            --primary: #3b82f6; --primary-dark: #2563eb; 
+            --accent: #facc15; 
+            --bg-body: #ffffff; --bg-card: #ffffff; 
+            --text-main: #1f2937; --text-sub: #6b7280;
+            --border-color: #f3f4f6; --nav-bg: #ffffff;
+            --shadow-soft: 0 4px 20px rgba(0,0,0,0.05);
+            --radius-box: 20px;
+            --error: #ef4444;
+        }
+
+        /* Mode Gelap (Default) */
+        body.dark-mode {
+            --bg-body: #111827; --bg-card: #1f2937; 
+            --text-main: #f9fafb; --text-sub: #9ca3af;
+            --border-color: #374151; --nav-bg: #1f2937;
+            --shadow-soft: 0 4px 20px rgba(0,0,0,0.5);
+        }
+
+        /* --- 2. GLOBAL STYLES & PROTEKSI --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; -webkit-tap-highlight-color: transparent; }
+        
+        body {
+            background-color: var(--bg-body); color: var(--text-main); 
+            padding-bottom: 90px; width: 100%; min-height: 100vh; 
+            overflow-x: hidden; transition: background 0.3s, color 0.3s;
+            
+            /* PROTEKSI 1: Mencegah seleksi teks/gambar (blok biru) */
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        /* PROTEKSI 2: KUNCI AGAR GAMBAR TIDAK BISA DI-DOWNLOAD/INTERAKSI */
+        img {
+            /* Membuat gambar tembus pandang bagi mouse/jari */
+            pointer-events: none; 
+            -webkit-user-drag: none;
+            user-drag: none;
+            -webkit-touch-callout: none;
+        }
+
+        /* Pastikan link dan tombol tetap bisa diklik */
+        a, button, .card-v, .card-h, .nav-item, .promo-banner {
+            pointer-events: auto;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes bounceFire { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.2); } }
+        @keyframes popUpEntrance { 0% { transform: scale(0.8); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+
+        /* --- 3. KOMPONEN UI --- */
+        header { background: linear-gradient(180deg, var(--primary) 0%, var(--primary-dark) 100%); padding: 30px 20px 45px 20px; border-bottom-left-radius: 30px; border-bottom-right-radius: 30px; color: white; position: relative; z-index: 10; }
+        .header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .search-container { background: var(--bg-card); border-radius: 15px; padding: 12px 15px; display: flex; align-items: center; gap: 10px; box-shadow: var(--shadow-soft); transition: 0.3s; }
+        .search-container input { border: none; outline: none; width: 100%; font-size: 13px; color: var(--text-main); background: transparent; }
+
+        /* Slider Image Update */
+        .slider-container { margin-top: -35px; padding: 0 20px; position: relative; z-index: 20; overflow: hidden; }
+        .slider-wrapper { display: flex; transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1); width: 100%; }
+        .slide-item { min-width: 100%; }
+        
+        /* Kartu Promo */
+        .promo-card { 
+            border-radius: var(--radius-box); 
+            padding: 20px; height: 160px; 
+            display: flex; justify-content: space-between; align-items: center; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3); 
+            position: relative; overflow: hidden; color: white; width: 100%;
+            background-size: cover; background-position: center;
+        }
+        .promo-card::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(90deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.3) 100%);
+            z-index: 1;
+        }
+        .promo-text, .promo-img { position: relative; z-index: 2; }
+        .promo-img { width: 70px; height: 70px; object-fit: contain; filter: drop-shadow(0 5px 10px rgba(0,0,0,0.2)); } 
+        .btn-banner { background: var(--accent); color: #000; border: none; padding: 6px 14px; border-radius: 8px; font-weight: 700; font-size: 11px; cursor: pointer; }
+
+        /* Kategori & List */
+        .categories { display: flex; gap: 10px; padding: 20px; overflow-x: auto; scrollbar-width: none; }
+        .cat-btn { padding: 8px 18px; border-radius: 12px; font-size: 12px; font-weight: 500; border: none; cursor: pointer; transition: 0.3s; white-space: nowrap; }
+        .cat-btn.active { background-color: var(--accent); color: #111827; font-weight: 700; box-shadow: 0 4px 10px rgba(250, 204, 21, 0.3); }
+        .cat-btn.inactive { background-color: var(--bg-card); color: var(--text-sub); border: 1px solid var(--border-color); }
+
+        .horizontal-list { display: flex; gap: 15px; padding: 0 20px 20px 20px; overflow-x: auto; scrollbar-width: none; }
+        .card-h { min-width: 130px; text-align: center; background: var(--bg-card); padding: 12px; border-radius: 16px; box-shadow: var(--shadow-soft); border: 1px solid var(--border-color); position: relative; cursor: pointer; }
+        
+        .grid-list { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 0 20px; }
+        .card-v { background: var(--bg-card); padding: 12px; border-radius: 16px; box-shadow: var(--shadow-soft); display: flex; flex-direction: column; border: 1px solid var(--border-color); transition: 0.2s; cursor: pointer; }
+        .card-v:active, .card-h:active { transform: scale(0.96); }
+
+        .app-icon { width: 50px; height: 50px; margin: 0 auto 10px; display: block; object-fit: contain; }
+        h4 { font-size: 13px; margin-bottom: 2px; color: var(--text-main); }
+        span.sub { font-size: 10px; color: var(--text-sub); display: block; margin-bottom: 5px; }
+        .price { color: var(--accent); font-weight: 700; font-size: 12px; margin-bottom: 8px; }
+        
+        .btn-buy-soft { width: 100%; background: rgba(59, 130, 246, 0.1); color: var(--primary); border: none; padding: 8px; border-radius: 8px; font-size: 11px; font-weight: 600; cursor: pointer; }
+        body.dark-mode .btn-buy-soft { background: #374151; color: var(--accent); }
+        .btn-add { width: 30px; height: 30px; border-radius: 50%; background: var(--primary); color: white; border: none; display: flex; align-items: center; justify-content: center; margin-left: auto; cursor: pointer; }
+
+        /* Page Layout & Info Admin */
+        .page-section { display: none; animation: fadeIn 0.4s ease; }
+        .page-section.active { display: block; }
+        .history-item { background: var(--bg-card); padding: 15px; border-radius: 15px; margin-bottom: 10px; border: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; }
+        .status-badge { font-size: 10px; padding: 4px 8px; border-radius: 10px; font-weight: bold; display: flex; align-items: center; gap: 4px; }
+        .status-success { background: #dcfce7 !important; color: #16a34a !important; border: 1px solid #bbf7d0; }
+        .status-pending { background: #fee2e2; color: #ef4444; }
+
+        .profile-card { background: var(--bg-card); margin: 20px; padding: 20px; border-radius: 20px; text-align: center; box-shadow: var(--shadow-soft); border: 1px solid var(--border-color); }
+        .profile-img-container { position: relative; width: 85px; height: 85px; margin: 0 auto 15px; }
+        .profile-img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent); box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+        .btn-edit-profile { position: absolute; bottom: 0; right: 0; background: var(--primary); width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; border: 2px solid var(--bg-card); cursor: pointer; pointer-events: auto; z-index: 5; }
+        
+        .menu-list { padding: 0 20px; }
+        .menu-item { display: flex; justify-content: space-between; align-items: center; background: var(--bg-card); padding: 15px; margin-bottom: 10px; border-radius: 12px; border: 1px solid var(--border-color); cursor: pointer; color: var(--text-main); text-decoration: none; }
+        
+        /* STYLE KHUSUS ADMIN */
+        .admin-info { text-align: left; margin-top: 15px; padding-top: 15px; border-top: 1px solid var(--border-color); }
+        .admin-info h3 { font-size: 14px; margin-bottom: 5px; color: var(--accent); }
+        .admin-info p { font-size: 12px; color: var(--text-sub); line-height: 1.5; }
+
+        .copyright-text { text-align: center; font-size: 11px; color: var(--text-sub); margin-top: 30px; padding-bottom: 20px; }
+        .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: var(--nav-bg); display: flex; justify-content: space-around; padding: 10px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05); border-top-left-radius: 20px; border-top-right-radius: 20px; z-index: 100; border-top: 1px solid var(--border-color); }
+        .nav-item { display: flex; flex-direction: column; align-items: center; font-size: 9px; color: var(--text-sub); text-decoration: none; gap: 4px; padding: 5px; cursor: pointer; }
+        .nav-item.active { color: var(--primary); }
+        .nav-center { position: relative; top: -30px; background: var(--primary); width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; border: 4px solid var(--bg-body); box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4); }
+
+        /* Popups */
+        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 999; backdrop-filter: blur(4px); display: none; justify-content: center; align-items: center; }
+        .popup-box { background: var(--bg-card); width: 85%; max-width: 320px; padding: 25px; border-radius: 25px; text-align: center; animation: popUpEntrance 0.3s ease-out; position: relative; color: var(--text-main); }
+        .btn-discord { background: #5865F2; color: white; border: none; padding: 12px; width: 100%; border-radius: 12px; font-weight: 600; font-size: 14px; text-decoration: none; display: block; margin-bottom: 10px; }
+        .confirm-btn-group { display: flex; gap: 10px; margin-top: 20px; }
+        .btn-yes { flex: 1; background: var(--primary); color: white; border: none; padding: 10px; border-radius: 10px; cursor: pointer; }
+        .btn-no { flex: 1; background: #fee2e2; color: #ef4444; border: none; padding: 10px; border-radius: 10px; cursor: pointer; }
+    </style>
+</head>
+<body class="dark-mode" oncontextmenu="return false;"> 
+  <input type="file" id="uploadInput" accept="image/*" style="display: none;" onchange="updateProfilePic(this)">
+
+    <div class="overlay" id="discordPopup">
+        <div class="popup-box">
+            <i class="fa-brands fa-discord" style="font-size: 50px; color: #5865F2; margin-bottom: 15px;"></i>
+            <h2 style="font-size:18px; margin-bottom:5px;">Gabung Komunitas!</h2>
+            <p style="font-size:12px; color:var(--text-sub); margin-bottom:20px;">ARDAN HUB</p>
+            <a href="https://discord.gg/3AP9STWsUz" target="_blank" class="btn-discord">Join Discord</a>
+            <span onclick="closePopup('discordPopup')" style="font-size:12px; color:var(--text-sub); cursor:pointer; text-decoration:underline;">Nanti Saja</span>
+        </div>
+    </div>
+
+    <div class="overlay" id="confirmPopup">
+        <div class="popup-box">
+            <h3 style="font-size:16px;">Konfirmasi Pesanan</h3>
+            <p style="font-size:12px; color:var(--text-sub); margin-top:5px;">Lanjutkan pembelian via WhatsApp?</p>
+            <div style="background:var(--border-color); padding:10px; border-radius:10px; margin-top:15px;">
+                <h4 id="confName" style="font-size:14px;">Nama Produk</h4>
+                <div id="confPrice" style="font-size:14px; font-weight:bold; color:var(--primary);">Rp 0</div>
+            </div>
+            <div class="confirm-btn-group">
+                <button class="btn-no" onclick="closePopup('confirmPopup')">Batal</button>
+                <button class="btn-yes" onclick="processOrder()">Lanjut WA</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="page-home" class="page-section active">
+        <header>
+            <div class="header-top">
+                <div><h1 style="font-size:22px;">TOKOARDAN</h1><p style="font-size:11px; opacity:0.9;">menuju dunia masa depan!</p></div>
+                <div onclick="switchPage('page-akun')" style="width:40px; height:40px; border-radius:50%; overflow:hidden; border:2px solid rgba(255,255,255,0.5); cursor:pointer;">
+                    <img id="headerProfileImg" src="https://iili.io/fSe5i5g.th.png" style="width:100%; height:100%; object-fit:cover;">
+                </div>
+            </div>
+            <div class="search-container"><i class="fa-solid fa-magnifying-glass" style="color:#9ca3af;"></i><input type="text" id="searchInput" onkeyup="filterApps()" placeholder="Cari aplikasi..."></div>
+        </header>
+
+        <div class="slider-container">
+            <div class="slider-wrapper" id="sliderWrapper">
+                <div class="slide-item">
+                    <div class="promo-card" style="background-image: url('https://iili.io/f8bO9RV.md.jpg');">
+                        <div class="promo-text"><h2>Paket Desain</h2><button class="btn-banner" onclick="askOrder('Paket Canva', '')">Beli</button></div>
+                        <img src="https://iili.io/f8UYEFe.md.png" class="promo-img">
+                    </div>
+                </div>
+                <div class="slide-item">
+                    <div class="promo-card" style="background-image: url('https://iili.io/f8bVLoG.md.jpg');">
+                        <div class="promo-text"><h2>Netflix Premium</h2><button class="btn-banner" onclick="askOrder('Paket Netflix', '')">Cek</button></div>
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/7/75/Netflix_icon.svg" class="promo-img">
+                    </div>
+                </div>
+                <div class="slide-item">
+                    <div class="promo-card" style="background-image: url('https://iili.io/f867EQ4.md.jpg');">
+                        <div class="promo-text"><h2>Mobile Legends</h2><button class="btn-banner" onclick="window.location.href='../id/mobilelegends/'">Beli</button></div>
+                        <img src="https://iili.io/f8UICg4.md.png" class="promo-img">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="categories">
+            <button class="cat-btn active" onclick="filterCategory('all', this)"><i class="fa-solid fa-grip"></i> Semua</button>
+            <button class="cat-btn inactive" onclick="filterCategory('desain', this)"><i class="fa-solid fa-pen-nib"></i> Desain</button>
+            <button class="cat-btn inactive" onclick="filterCategory('video', this)"><i class="fa-solid fa-clapperboard"></i> Video</button>
+            <button class="cat-btn inactive" onclick="filterCategory('game', this)"><i class="fa-solid fa-gamepad"></i> Game</button>
+        </div>
+
+        <section>
+            <div style="display:flex; justify-content:space-between; padding:0 20px; margin-bottom:15px; align-items:center;">
+                <h3 style="font-size:16px;">Paling Laris <span style="animation: bounceFire 1s infinite; display:inline-block; color:var(--accent);"><i class="fa-solid fa-exclamation"></i></span></h3>
+            </div>
+            <div class="horizontal-list">
+                <div class="card-h" onclick="askOrder('Canva', '')"><img src="https://iili.io/f8UYEFe.md.png" class="app-icon"><h4>Canva</h4><span class="sub">1 Bulan - 1 Tahun</span><div class="price">Rp 1.5K - 15K</div><button class="btn-buy-soft">Beli</button></div>
+                <div class="card-h" onclick="askOrder('Capcut', '')"><img src="https://iili.io/f8U5nNp.md.png" class="app-icon"><h4>Capcut</h4><span class="sub">7 Hari - 1 Bulan</span><div class="price">Rp 10K - 30K</div><button class="btn-buy-soft">Beli</button></div>
+                <div class="card-h" onclick="askOrder('Alight Motion', '')"><img src="https://iili.io/f8U7EpR.md.png" class="app-icon"><h4>Alight Motion</h4><span class="sub">Private 1 tahun</span><div class="price">Rp 5K - 10K</div><button class="btn-buy-soft">Beli</button></div>
+            </div>
+        </section>
+
+        <section>
+            <div style="display:flex; justify-content:space-between; padding:0 20px; margin-bottom:15px; align-items:center;">
+                <h3 style="font-size:16px;">Semua Produk <span style="animation: bounceFire 1s infinite; display:inline-block; color:var(--accent);"><i class="fa-solid fa-fire"></i></span></h3>
+            </div>
+            <div class="grid-list" id="appList">
+                <div class="card-v category-video" onclick="askOrder('Netflix', '')"><img src="https://upload.wikimedia.org/wikipedia/commons/7/75/Netflix_icon.svg" class="app-icon"><div><h4>Netflix</h4><span class="sub">2 User - 1 Bulan</span></div><div style="display:flex; justify-content:space-between; align-items:center; margin-top:auto;"><div class="price" style="margin:0;">Rp 20K - 120K</div><button class="btn-add"><i class="fa-solid fa-plus"></i></button></div></div>
+                <div class="card-v category-desain" onclick="askOrder('Canva', '')"><img src="https://iili.io/f8UYEFe.md.png" class="app-icon"><div><h4>Canva</h4><span class="sub">1 Bulan - 1 Tahun</span></div><div style="display:flex; justify-content:space-between; align-items:center; margin-top:auto;"><div class="price" style="margin:0;">Rp 1.5K - 15K</div><button class="btn-add"><i class="fa-solid fa-plus"></i></button></div></div>
+                <div class="card-v category-game" onclick="window.location.href='../id/roblox/'">
+                    <img src="https://iili.io/fS3kITX.th.png" class="app-icon">
+                    <div><h4>Roblox</h4><span class="sub">Instant Topup</span></div>
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-top:auto;"><div class="price" style="margin:0; color:var(--accent);">Cek Sekarang</div><button class="btn-add"><i class="fa-solid fa-chevron-right"></i></button></div>
+                </div>
+                
+                <div class="card-v category-game" onclick="window.location.href='../id/mobilelegends/'">
+                    <img src="https://iili.io/f8UICg4.md.png" class="app-icon">
+                    <div><h4>Mobile Legends</h4><span class="sub">Instant Topup</span></div>
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-top:auto;"><div class="price" style="margin:0; color:var(--accent);">Cek Sekarang</div><button class="btn-add"><i class="fa-solid fa-chevron-right"></i></button></div>
+                </div>
+
+                <div class="card-v category-video" onclick="askOrder('Capcut', '')"><img src="https://iili.io/f8U5nNp.md.png" class="app-icon"><div><h4>Capcut</h4><span class="sub">7 Hari - 1 Bulan</span></div><div style="display:flex; justify-content:space-between; align-items:center; margin-top:auto;"><div class="price" style="margin:0;">Rp 10K - 30K</div><button class="btn-add"><i class="fa-solid fa-plus"></i></button></div></div>
+                <div class="card-v category-video" onclick="askOrder('Spotify', '')"><img src="https://files.catbox.moe/o50lje.png" class="app-icon"><div><h4>Spotify</h4><span class="sub">1 Bulan - 1 Bulan</span></div><div style="display:flex; justify-content:space-between; align-items:center; margin-top:auto;"><div class="price" style="margin:0;">Rp 28K - 27K</div><button class="btn-add"><i class="fa-solid fa-plus"></i></button></div></div>
+            </div>
+            <br>
+        </section>
+
+        <div class="copyright-text">
+            <i class="fa-solid fa-circle-check" style="color:#facc15; margin-right:2px;"></i> <strong>TOKOARDAN All <strong>Rights Reserved<br></strong>
+            Made with for Community
+        </div>
+    </div>
+    <div id="page-history" class="page-section">
+        <header><h1 style="font-size:20px;">Riwayat Transaksi</h1></header>
+        <div class="history-list" id="transactionList">
+            <div class="empty-state"><i class="fa-regular fa-folder-open" style="font-size:40px; margin-bottom:10px;"></i><p>Belum ada transaksi</p></div>
+        </div>
+    </div>
+
+    <div id="page-contact" class="page-section">
+        <header><h1 style="font-size:20px;">Hubungi Admin</h1></header>
+        
+        <div class="profile-card">
+            <div class="profile-img-container">
+                <img src="https://iili.io/fSvZNf9.jpg" class="profile-img">
+            </div>
+            
+            <h2 style="font-size:18px;">Ardan</h2>
+            <p style="font-size:12px; color:var(--primary); font-weight:600; background:rgba(59,130,246,0.1); display:inline-block; padding:4px 10px; border-radius:10px; margin-top:5px;">Owner & Admin</p>
+
+            <div class="admin-info">
+                <h3><i class="fa-solid fa-circle-info"></i> Tentang Admin</h3>
+                <p>Halo! Saya Ardan. Saya menyediakan berbagai kebutuhan produk digital murah, cepat, dan terpercaya. Jika ada kendala transaksi atau pertanyaan, silakan hubungi kontak di bawah ini.</p>
+            </div>
+        </div>
+
+        <div class="menu-list">
+            <h4 style="margin-bottom:10px; margin-left:5px;">Kontak Resmi</h4>
+            <a href="https://wa.me/6285783123060" class="menu-item" target="_blank">
+                <span><i class="fa-brands fa-whatsapp" style="margin-right:10px; color:#25D366; font-size:18px;"></i> WhatsApp Admin</span>
+                <i class="fa-solid fa-chevron-right" style="font-size:12px;"></i>
+            </a>
+            <a href="mailto:cstokoardan@proton.me" class="menu-item">
+                <span><i class="fa-regular fa-envelope" style="margin-right:10px; color:#EA4335; font-size:18px;"></i> Email Support</span>
+                <i class="fa-solid fa-chevron-right" style="font-size:12px;"></i>
+            </a>
+            <a href="https://discord.gg/3AP9STWsUz" class="menu-item" target="_blank">
+                <span><i class="fa-brands fa-discord" style="margin-right:10px; color:#5865F2; font-size:18px;"></i> Discord Server</span>
+                <i class="fa-solid fa-chevron-right" style="font-size:12px;"></i>
+            </a>
+        </div>
+
+        <div class="copyright-text">
+            <i class="fa-solid fa-circle-check" style="color:#facc15; margin-right:2px;"></i> <strong>TOKOARDAN All <strong>Rights Reserved<br></strong>
+            Made with for Community
+        </div>
+    </div>
+
+    <div id="page-akun" class="page-section">
+        <header><h1 style="font-size:20px;">Akun Saya</h1></header>
+        <div class="profile-card">
+            <div class="profile-img-container">
+                <img id="profileImgMain" src="https://iili.io/fSe5i5g.th.png" class="profile-img">
+                <div class="btn-edit-profile" onclick="document.getElementById('uploadInput').click()">
+                    <i class="fa-solid fa-camera" style="font-size:12px;"></i>
+                </div>
+            </div>
+            
+            <h2 id="displayUsername" style="font-size:18px;">User</h2>
+            <p id="displayUserID" style="font-size:12px; color:var(--text-sub); margin-top:5px; background:var(--border-color); display:inline-block; padding:4px 10px; border-radius:10px;">ID: -</p>
+        </div>
+        <div class="menu-list">
+            <div class="menu-item" onclick="toggleDarkMode()">
+                <span><i class="fa-regular fa-sun" style="margin-right:10px; color:var(--accent);"></i> Mode Terang</span>
+                <i class="fa-solid fa-toggle-off" id="darkModeIcon" style="font-size:24px; color:#ccc;"></i>
+            </div>
+            <a href="https://discord.gg/3AP9STWsUz" class="menu-item"><span><i class="fa-brands fa-discord" style="margin-right:10px; color:#5865F2;"></i> Join Discord</span><i class="fa-solid fa-chevron-right" style="font-size:12px;"></i></a>
+        </div>
+        
+        <div class="copyright-text">
+            <i class="fa-solid fa-circle-check" style="color:#facc15; margin-right:2px;"></i> <strong>TOKOARDAN All <strong>Rights Reserved<br></strong>
+            Made with for Community
+        </div>
+    </div>
+    <nav class="bottom-nav">
+        <div class="nav-item active" id="nav-home" onclick="switchPage('page-home')"><i class="fa-solid fa-house"></i><span>Home</span></div>
+        <div class="nav-item" id="nav-history" onclick="switchPage('page-history')"><i class="fa-regular fa-file-lines"></i><span>History</span></div>
+        
+        <a href="https://discord.gg/3AP9STWsUz" class="nav-center"><i class="fa-brands fa-discord" style="font-size:24px;"></i></a>
+        
+        <div class="nav-item" id="nav-contact" onclick="switchPage('page-contact')"><i class="fa-solid fa-address-book"></i><span>Kontak</span></div>
+        
+        <div class="nav-item" id="nav-akun" onclick="switchPage('page-akun')"><i class="fa-regular fa-user"></i><span>Akun</span></div>
+    </nav>
+    <script>
+        // --- PROTEKSI TAMBAHAN (JAVASCRIPT) ---
+        // Mematikan menu klik kanan di seluruh halaman
+        document.addEventListener('contextmenu', event => event.preventDefault());
+
+        // Mematikan drag and drop gambar
+        document.addEventListener('dragstart', event => event.preventDefault());
+
+
+        // --- LOGIKA APLIKASI ASLI ---
+        // --- 1. SETUP ID USER & PROFILE PIC ---
+        let userID = localStorage.getItem('tokoardan_userid');
+        if (!userID) { userID = 'USER-' + Math.floor(1000 + Math.random() * 9000); localStorage.setItem('tokoardan_userid', userID); }
+        document.getElementById('displayUserID').innerText = "ID: " + userID;
+        document.getElementById('displayUsername').innerText = "Member " + userID.split('-')[1];
+
+        // LOAD SAVED PROFILE PICTURE
+        const savedProfile = localStorage.getItem('user_profile_pic');
+        if(savedProfile) {
+            document.getElementById('profileImgMain').src = savedProfile;
+            document.getElementById('headerProfileImg').src = savedProfile;
+        }
+
+        // UPDATE PROFILE FUNCTION
+        function updateProfilePic(input) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('profileImgMain').src = e.target.result;
+                    document.getElementById('headerProfileImg').src = e.target.result;
+                    localStorage.setItem('user_profile_pic', e.target.result);
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        // --- 2. DARK MODE LOGIC (Default: Dark) ---
+        let storedTheme = localStorage.getItem('darkMode');
+        let isDark = storedTheme === null ? true : storedTheme === 'true';
+        if(isDark) enableDark(); else disableDark();
+
+        function toggleDarkMode() {
+            isDark = !isDark;
+            localStorage.setItem('darkMode', isDark);
+            if(isDark) enableDark(); else disableDark();
+        }
+
+        function enableDark() { 
+            document.body.classList.add('dark-mode'); 
+            document.getElementById('darkModeIcon').classList.replace('fa-toggle-on', 'fa-toggle-off'); 
+            document.getElementById('darkModeIcon').style.color = '#ccc'; 
+        }
+
+        function disableDark() { 
+            document.body.classList.remove('dark-mode'); 
+            document.getElementById('darkModeIcon').classList.replace('fa-toggle-off', 'fa-toggle-on'); 
+            document.getElementById('darkModeIcon').style.color = '#3b82f6'; 
+        }
+
+        // --- 3. NAVIGASI SPA ---
+        function switchPage(pageId) {
+            document.querySelectorAll('.page-section').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+            
+            document.getElementById(pageId).classList.add('active');
+            
+            if(pageId === 'page-home') document.getElementById('nav-home').classList.add('active');
+            if(pageId === 'page-history') document.getElementById('nav-history').classList.add('active');
+            // Logic Active State untuk Kontak
+            if(pageId === 'page-contact') document.getElementById('nav-contact').classList.add('active');
+            if(pageId === 'page-akun') document.getElementById('nav-akun').classList.add('active');
+        }
+
+        // --- 4. FILTER ---
+        function filterCategory(cat, btn) {
+            document.querySelectorAll('.cat-btn').forEach(el => { el.classList.remove('active'); el.classList.add('inactive'); });
+            btn.classList.remove('inactive'); btn.classList.add('active');
+            document.querySelectorAll('.card-v').forEach(item => {
+                if(cat === 'all') item.style.display = 'flex';
+                else item.style.display = item.classList.contains('category-'+cat) ? 'flex' : 'none';
+            });
+        }
+        function filterApps() {
+            let val = document.getElementById('searchInput').value.toLowerCase();
+            document.querySelectorAll('.card-v').forEach(item => {
+                item.style.display = item.querySelector('h4').innerText.toLowerCase().includes(val) ? 'flex' : 'none';
+            });
+        }
+
+        // --- 5. LOGIKA ORDER ---
+        let selectedProduct = "", selectedPrice = "";
+        
+        window.onload = function() { 
+            if(!sessionStorage.getItem('discordPopupShown')) {
+                setTimeout(function() { document.getElementById('discordPopup').style.display = 'flex'; }, 1500); 
+            }
+        }
+        function closePopup(id) { 
+            document.getElementById(id).style.display = 'none'; 
+            if(id === 'discordPopup') sessionStorage.setItem('discordPopupShown', 'true');
+        }
+        
+        let slideIndex = 0;
+        setInterval(() => { slideIndex = (slideIndex + 1) % 3; document.getElementById('sliderWrapper').style.transform = `translateX(-${slideIndex * 100}%)`; }, 4000);
+
+        function askOrder(name, price) {
+            selectedProduct = name; selectedPrice = price;
+            document.getElementById('confName').innerText = name; document.getElementById('confPrice').innerText = price;
+            document.getElementById('confirmPopup').style.display = 'flex';
+        }
+
+        function processOrder() {
+            const trxID = Date.now();
+            let history = JSON.parse(localStorage.getItem('trx_history')) || [];
+            history.unshift({ id: trxID, name: selectedProduct, price: selectedPrice, date: new Date().toLocaleDateString(), status: 'Menunggu' });
+            localStorage.setItem('trx_history', JSON.stringify(history));
+            
+            renderHistory();
+            
+            const phone = "6285783123060"; 
+            let text = `Halo Admin Tokoardan,\nSaya order: *${selectedProduct}*\nID: ${userID}\nMohon proses segera.`;
+            window.open(`https://wa.me/${phone}?text=${encodeURIComponent(text)}`, '_blank');
+            
+            closePopup('confirmPopup');
+            switchPage('page-history');
+            setTimeout(() => { makeItSuccess(trxID); }, 4000);
+        }
+
+        function makeItSuccess(targetID) {
+            let history = JSON.parse(localStorage.getItem('trx_history')) || [];
+            let index = history.findIndex(x => x.id === targetID);
+            if(index !== -1) {
+                history[index].status = 'Berhasil';
+                localStorage.setItem('trx_history', JSON.stringify(history));
+                renderHistory();
+            }
+        }
+
+        function renderHistory() {
+            let history = JSON.parse(localStorage.getItem('trx_history')) || [];
+            let html = '';
+            if(history.length === 0) html = `<div class="empty-state"><i class="fa-regular fa-folder-open" style="font-size:40px; margin-bottom:10px;"></i><p>Belum ada transaksi</p></div>`;
+            else {
+                history.forEach(item => {
+                    let cls = item.status === 'Berhasil' ? 'status-badge status-success' : 'status-badge status-pending';
+                    let icon = item.status === 'Berhasil' ? '<i class="fa-solid fa-check"></i>' : '<i class="fa-regular fa-clock"></i>';
+                    html += `<div class="history-item"><div><h4 style="font-size:14px; margin-bottom:2px;">${item.name}</h4><span style="font-size:10px; color:var(--text-sub);">${item.date} • ${item.price}</span></div><div class="${cls}">${icon} ${item.status}</div></div>`;
+                });
+            }
+            document.getElementById('transactionList').innerHTML = html;
+        }
+        renderHistory();
+    </script>
+</body>
+</html>
