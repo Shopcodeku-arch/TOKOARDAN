@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Top Up Roblox - TOKOARDAN</title>
+    <link rel="icon" href="https://files.catbox.moe/gyw58d.png" type="image/png">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body oncontextmenu="return false;">
+  
+    <div class="overlay" id="confirmPopup">
+        <div class="popup">
+            <h3 style="font-size:16px;">Konfirmasi Pesanan</h3>
+            <p style="font-size:12px; color:var(--text-sub); margin-top:5px;">Lanjutkan pembelian via WhatsApp?</p>
+            <div style="background:var(--bg-body); padding:10px; border-radius:10px; margin-top:15px; border:1px solid var(--border-color);">
+                <h4 id="confName" style="font-size:13px;">Item Name</h4>
+                <div id="confPrice" style="font-size:14px; font-weight:bold; color:var(--primary);">Rp 0</div>
+            </div>
+            <div class="btn-group">
+                <button class="btn-no" onclick="closePopup()">Batal</button>
+                <button class="btn-yes" onclick="processOrder()">Lanjut WA</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="game-header">
+        <a href="../" class="btn-back"><i class="fa-solid fa-arrow-left"></i></a>
+        <img src="https://iili.io/fSntoQ9.md.jpg" class="game-bg">
+        <div class="header-content">
+            <img src="https://iili.io/fSN5CSs.th.png" class="game-icon">
+            <div class="game-text">
+                <h1>Roblox</h1>
+                <p>Robux & Premium</p>
+                <div class="badges">
+                    <span class="badge"><i class="fa-solid fa-bolt" style="color:#facc15;"></i> Instant</span>
+                    <span class="badge"><i class="fa-solid fa-shield-halved" style="color:#60a5fa;"></i> Aman</span>
+                    <span class="badge"><i class="fa-solid fa-circle-check" style="color:#90EE90;"></i> Bergaransi</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="tab-box">
+        <div class="tab-item active" onclick="switchTab('transaksi')">Transaksi</div>
+        <div class="tab-item" onclick="switchTab('keterangan')">Keterangan</div>
+    </div>
+
+    <div id="view-transaksi">
+        
+        <div class="section-box" id="inputSection">
+            <div class="num-label"><span class="num-circle">1</span> Masukkan Username</div>
+            
+            <div class="input-group" style="position:relative;">
+                <input type="text" id="userid" class="input-field" placeholder="Masukkan Username Roblox" onkeyup="debounceSearch()" autocomplete="off">
+                <div class="loader-spin" id="loadingIcon"></div>
+            </div>
+            
+            <span class="helper-text">Contoh: TokoArdan_Gamer (Tanpa @)</span>
+
+            <div id="userCheckResult" class="user-check-result">
+                <img id="robloxAvatar" src="" class="user-avatar-img">
+                <div>
+                    <div id="robloxName" style="font-size:13px; font-weight:700;">Username</div>
+                    <div id="robloxIdDisplay" style="font-size:10px; color:var(--text-sub);">ID: -</div>
+                    <div class="valid-badge"><i class="fa-solid fa-circle-check"></i> Terverifikasi</div>
+                </div>
+            </div>
+        </div>
+
+        <div style="margin: 0 20px 20px; position:relative;">
+            <div class="num-label" style="position:static; display:inline-flex; width:auto; border-radius:8px;"><span class="num-circle">2</span> Pilih Nominal</div>
+        </div>
+
+        <div class="flash-container" id="flashSection">
+            <div class="flash-header">
+                <span><i class="fa-solid fa-bolt"></i> FLASH SALE</span>
+                <div class="countdown-badge" id="countdown">
+                    <i class="fa-regular fa-clock"></i> <span id="timer-text">00:00:00</span>
+                </div>
+            </div>
+            <div class="flash-grid" id="flash-list"></div>
+        </div>
+
+        <div class="cat-title"><i class="fa-solid fa-gem"></i> Paket Hemat (Fast/ViaLog)</div>
+        <div class="normal-grid" id="first-list"></div>
+
+        <div class="cat-title"><i class="fa-solid fa-fire"></i> Premium & Gift (ViaLog/Online/Code)</div>
+        <div class="normal-grid" id="special-list"></div>
+
+        <div class="cat-title"><i class="fa-regular fa-gem"></i> Top Up Robux (Pass 1-5 Hari)</div>
+        <div class="normal-grid" id="regular-list"></div>
+        
+        <div class="copyright-text">
+            <i class="fa-solid fa-circle-check" style="color:#facc15; margin-right:2px;"></i> <strong>TOKOARDAN All Rights Reserved</strong><br>
+            Made with for Community
+        </div>
+    </div>
+
+    <div id="view-keterangan">
+        <div class="info-box">
+            <div class="info-title">Cara Pemesanan</div>
+            <ol class="step-list">
+                <li>Masukkan <strong>Username Roblox</strong> Anda (Tunggu sampai terverifikasi)</li>
+                <li>Pilih nominal Robux yang Anda inginkan</li>
+                <li>Klik tombol <strong>"Pesan Sekarang"</strong> di bagian bawah</li>
+                <li>Anda akan diarahkan ke <strong>WhatsApp Admin</strong></li>
+                <li>Kirim format pesan yang sudah otomatis terisi</li>
+            </ol>
+        </div>
+
+        <div class="info-box">
+            <div class="info-title">FAQ (Tanya Jawab)</div>
+            <details>
+                <summary>Apa Itu Pass?</summary>
+                <p>Pass Roblox adalah item digital (Game Pass) di dalam game Roblox yang memberi keuntungan khusus kepada pemain, seperti akses fitur premium, item eksklusif, kemampuan tambahan, atau membuka area tertentu. Pass hanya bisa digunakan pada game yang mendukungnya dan biasanya bersifat permanen untuk akun pembeli :)</p>
+            </details>
+            <details>
+                <summary>Berapa lama prosesnya?</summary>
+                <p>Proses top up biasanya instan (5-10 menit) setelah pembayaran dikonfirmasi :)</p>
+            </details>
+            <details>
+            <summary>Apa Itu ViaLog?</summary>
+            <p>ViaLog adalah sistem pengiriman digital yang mencatat dan menampilkan status proses transaksi secara real-time, sehingga pengguna dapat memantau pesanan dari diproses hingga selesai dengan transparan dan aman :)</p>
+            </details>
+            <details>
+            <summary>Takut Kena Scam?</summary>
+<p>
+Tenang saja, TokoArdan terbebas dari scam dan menyediakan item resmi dari Indonesia :)
+<br>
+WhatsApp Admin: 
+<a href="https://wa.me/6285783123060" target="_blank" style="color:#25D366; text-decoration:none;">
+<i class="fa-brands fa-whatsapp"></i> 0857-8312-3060
+</a>
+</p>
+            </details>
+            <details>
+            <summary>Apa Itu Item Online?</summary>
+            <p>Item online adalah item yang akan kami gift/trade lewat map langsung setelah pembayaran terkonfirmasi :)</p>
+        </div>
+    </div>
+
+    <div class="footer-bar" id="footerBar">
+        <div>
+            <div style="font-size:10px; color:var(--text-sub);">Total Pembayaran</div>
+            <div id="totalPrice" style="font-size:16px; font-weight:bold; color:var(--primary);">Rp 0</div>
+        </div>
+        <button id="btnBuy" class="btn-buy" onclick="showConfirm()" disabled>Pesan Sekarang</button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
