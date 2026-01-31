@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TOKOARDAN - INDONESIA</title>
+    
+    <link rel="stylesheet" href="style.css">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="popup-overlay" id="promoPopup">
+        <div class="popup-box">
+            <span class="popup-close" id="closePopup">&times;</span>
+            <div class="popup-img-container">
+                <img src="https://i.ibb.co.com/rGC0nS1M/welcome.webp" alt="Promo">
+            </div>
+            <div class="popup-text">
+                <h3>Selamat Datang!</h3>
+                <p>Join discord kami untuk memenangkan berbagai giveaway item/diamond loh!
+                join sekarang juga :)</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-container">
+        <nav class="navbar" id="navbar">
+            <div class="nav-content">
+                <div class="nav-left">
+                    <a href="#" class="logo-container">
+                        <img src="https://i.ibb.co.com/Q7KZ78h8/background-removed-1769186041755.webp" alt="Logo Cekstore" class="logo-img">
+                    </a>
+                    
+                    <div class="region-selector">
+                        <img src="https://flagcdn.com/w40/id.png" alt="ID Flag">
+                        <span>ID</span>
+                    </div>
+                </div>
+
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchInput" placeholder="Cari game..." autocomplete="off">
+                    <div class="search-results" id="searchResults"></div>
+                </div>
+            </div>
+        </nav>
+
+        <div class="banner-slider-container">
+            <div class="banner-slider" id="bannerSlider">
+                <a href="../id/mobilelegends/" class="banner-item">
+                    <img src="https://i.ibb.co.com/prXTLXjc/ml.webp" alt="Mobile Legends Promo" class="full-banner-img">
+                </a>
+                <a href="#" class="banner-item">
+                    <img src="https://i.ibb.co.com/m5PhqPsp/images-18.webp" alt="Flash Sale" class="full-banner-img">
+                </a>
+                <a href="#" class="banner-item">
+                    <img src="https://i.ibb.co.com/Y4TkRTvf/22e32d16d785af0e57b504c7e00d18d7-6322521187050148455.webp" alt="New Game" class="full-banner-img">
+                </a>
+            </div>
+            <div class="slider-indicators" id="sliderIndicators">
+                <div class="indicator active" data-index="0"></div>
+                <div class="indicator" data-index="1"></div>
+                <div class="indicator" data-index="2"></div>
+            </div>
+        </div>
+
+        <div class="product-section">
+            
+            <div class="section-title">
+                <span class="emoji-icon">🔥</span>
+                <span>Populer Sekarang</span>
+            </div>
+
+            <div class="game-grid" id="gameGridPopuler">
+                
+                <a href="../id/topup/mobilelegends/" class="game-card shimmer-effect is-loading" data-name="Mobile Legends">
+                    <div class="card-image">
+                        <img src="https://i.ibb.co.com/XxWk56Ws/Proyek-Baru-21-2322414.webp" alt="MLBB">
+                    </div>
+                    <div class="card-info">
+                        <div class="card-name">Mobile Legends</div>
+                    </div>
+                </a>
+
+                <a href="javascript:void(0)" class="game-card coming-soon is-loading" data-name="Free Fire">
+                    <div class="card-image">
+                        <img src="https://i.ibb.co.com/j9mDMpvn/Proyek-Baru-21-55-A32-F5.png" alt="FF">
+                        <div class="coming-soon-badge">Segera Datang</div>
+                    </div>
+                    <div class="card-info">
+                        <div class="card-name">Free Fire</div>
+                    </div>
+                </a>
+
+                <a href="javascript:void(0)" class="game-card coming-soon is-loading" data-name="Genshin Impact">
+                    <div class="card-image">
+                        <img src="https://i.ibb.co.com/7dYp5zfW/Proyek-Baru-21-F984-AC3.png" alt="GI">
+                        <div class="coming-soon-badge">Segera Datang</div>
+                    </div>
+                    <div class="card-info">
+                        <div class="card-name">Genshin Impact</div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="section-title mt-20">
+                <span class="emoji-icon">⚡</span>
+                <span>TopUp Game</span>
+            </div>
+
+            <div class="game-grid" id="gameGridTopup">
+                <a href="javascript:void(0)" class="game-card coming-soon is-loading" data-name="PUBG Mobile">
+                    <div class="card-image">
+                        <img src="https://i.ibb.co.com/qMgQNrMD/Proyek-Baru-21-4-C10129.png" alt="PUBG">
+                        <div class="coming-soon-badge">Segera Datang</div>
+                    </div>
+                    <div class="card-info">
+                        <div class="card-name">PUBG Mobile</div>
+                    </div>
+                </a>
+
+                <a href="javascript:void(0)" class="game-card coming-soon is-loading" data-name="Honor of Kings">
+                    <div class="card-image">
+                        <img src="https://i.ibb.co.com/RT6WnY3b/Proyek-Baru-21-B876333.png" alt="HOK">
+                        <div class="coming-soon-badge">Segera Datang</div>
+                    </div>
+                    <div class="card-info">
+                        <div class="card-name">Honor of Kings</div>
+                    </div>
+                </a>
+
+                 <a href="../id/topup/roblox/" class="game-card is-loading" data-name="Roblox">
+                    <div class="card-image">
+                        <img src="https://i.ibb.co.com/rKQ0W5nd/Proyek-Baru-21-32-BF798.png" alt="Roblox">
+                    </div>
+                    <div class="card-info">
+                        <div class="card-name">Roblox</div>
+                    </div>
+                </a>
+
+                 <a href="javascript:void(0)" class="game-card coming-soon is-loading" data-name="Call of Duty Mobile">
+                    <div class="card-image">
+                        <img src="https://i.ibb.co.com/TSPQGDf/Proyek-Baru-21-E91-C3-A5.png" alt="CODM">
+                        <div class="coming-soon-badge">Segera Datang</div>
+                    </div>
+                    <div class="card-info">
+                        <div class="card-name">Call of Duty: Mobile</div>
+                    </div>
+                </a>
+
+                 <a href="javascript:void(0)" class="game-card coming-soon is-loading" data-name="Sausage Man">
+                    <div class="card-image">
+                        <img src="https://i.ibb.co.com/8Dk3kJ74/Proyek-Baru-21-7-D8-A6-AB.png" alt="Sausage">
+                        <div class="coming-soon-badge">Segera Datang</div>
+                    </div>
+                    <div class="card-info">
+                        <div class="card-name">Sausage Man</div>
+                    </div>
+                </a>
+
+                <a href="javascript:void(0)" class="game-card coming-soon is-loading" data-name="Magic Chess">
+                    <div class="card-image">
+                        <img src="https://i.ibb.co.com/zVNP4MVN/Proyek-Baru-21-63579-EB.png" alt="MCGG">
+                        <div class="coming-soon-badge">Segera Datang</div>
+                    </div>
+                    <div class="card-info">
+                        <div class="card-name">Magic Chess: Go Go!</div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="section-title mt-20">
+                <span class="emoji-icon">☕</span>
+                <span>Layanan Jasa</span>
+            </div>
+
+            <div class="game-grid" id="gameGridJasa">
+                <a href="https://wa.me/6285783123060?text=Halo%20admin%2C%20saya%20ingin%20jasa%20Pembuatan%20Website" target="_blank" class="game-card is-loading" data-name="Pembuatan Website">
+                    <div class="card-image">
+                        <img src="https://i.ibb.co.com/S40h30vV/b761c11dace36a0431b8c668a2beb4d1.jpg" alt="Website">
+                    </div>
+                    <div class="card-info">
+                        <div class="card-name">Pembuatan Website</div>
+                    </div>
+                </a>
+
+                <a href="https://wa.me/6285783123060?text=Halo%20admin%2C%20saya%20ingin%20jasa%20Rename%20Script" target="_blank" class="game-card is-loading" data-name="Rename Script">
+                    <div class="card-image">
+                        <img src="https://i.ibb.co.com/jkSNS4F8/1281a06f017dd046331ca20f5ca64f6f-2.jpg" alt="Script">
+                    </div>
+                    <div class="card-info">
+                        <div class="card-name">Rename Script</div>
+                    </div>
+                </a>
+
+                <a href="https://wa.me/6285783123060?text=Halo%20admin%2C%20saya%20ingin%20jasa%20Rekber%20Transaksi" target="_blank" class="game-card is-loading" data-name="Rekber Transaksi">
+                    <div class="card-image">
+                        <img src="https://i.ibb.co.com/N2KzrqQT/8029531c433b7d0e2bf48ca6429ef325.jpg" alt="Rekber">
+                    </div>
+                    <div class="card-info">
+                        <div class="card-name">Rekber Transaksi</div>
+                    </div>
+                </a>
+            </div>
+            <div class="section-bottom-spacer"></div>
+        </div>
+
+        <div class="news-section">
+            <div class="section-title">
+                <span class="emoji-icon">📰</span>
+                <span>Update Terkini</span>
+            </div>
+            
+            <div class="news-slider" id="newsSlider">
+                <div class="news-card">
+                    <div class="news-img">
+                        <img src="https://i.ibb.co.com/qvGrYn2/images-19.webp" alt="News 1">
+                    </div>
+                    <div class="news-content">
+                        <h4>Event M7 PASS</h4>
+                        <p>Event M7 Pass Mobile Legends 2026, yang berjalan dari 1 Januari hingga 8 Februari 2026, menghadirkan skin utama Granger "Thunder Ascendant", Skin Prime "Cosmic Finality", dan skin spesial Gatotkaca "Solar Spark".</p>
+                    </div>
+                </div>
+
+                <div class="news-card">
+                    <div class="news-img">
+                        <img src="https://i.ibb.co.com/Q5SvCQh/Proyek-Baru-24-557-DB78.webp" alt="News 2">
+                    </div>
+                    <div class="news-content">
+                        <h4>Lebih Hemat Di TOKOARDAN?</h4>
+                        <p>Dapatkan harga murah setiap pembelian diamond dengan garansi aktif! 🔥</p>
+                    </div>
+                </div>
+
+                <div class="news-card">
+                    <div class="news-img">
+                        <img src="https://i.ibb.co.com/JFkFh5jQ/Proyek-Baru-24-5-AA8-C57.webp" alt="News 3">
+                    </div>
+                    <div class="news-content">
+                        <h4>Roblox Kreator</h4>
+                        <p>Roblox meluncurkan turnamen kreator live dengan total hadiah $50.000</p>
+                    </div>
+                </div>
+
+                <div class="news-card">
+                    <div class="news-img">
+                        <img src="https://i.ibb.co.com/FLmv3wfW/05-8f9fe98e8f.webp" alt="News 4">
+                    </div>
+                    <div class="news-content">
+                        <h4>Update PUBG MOBILE?</h4>
+                        <p>update v4.2 yang menghadirkan mode "Primewood Genesis", Season 28 (11 Jan - 14 Mar 2026), sistem "Promotion Match" baru, dan kolaborasi eksklusif dengan Scuderia Ferrari</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="community-section">
+            <div class="section-title">
+                <span class="emoji-icon">🚀</span>
+                <span>Gabung Komunitas</span>
+            </div>
+
+            <div class="community-card">
+                <div class="community-image-wrapper">
+                    <img src="https://i.ibb.co.com/Gv0MchFs/Proyek-Baru-23-5-ED9-F7-F.webp" alt="Join Discord" class="discord-bg-img">
+                    
+                    <a href="https://discord.gg/3AP9STWsUz" target="_blank" class="join-btn-overlay">
+                        <i class="fab fa-discord"></i> JOIN SEKARANG
+                    </a>
+                </div>
+                
+                <div class="community-desc">
+                    <p>
+                        Join discord admin untuk mengikuti giveaway dan keseruan dengan member lainnya! yuk join
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="section-bottom-spacer"></div>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
