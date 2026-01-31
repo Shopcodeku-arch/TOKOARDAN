@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>TopUp Mobile Legends - TOKOARDAN</title>
+    <link rel="icon" href="https://files.catbox.moe/gyw58d.png" type="image/png">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body oncontextmenu="return false;">
+    
+    <div class="event-overlay" id="mlEventPopup">
+        <div class="event-card">
+            <button class="btn-close-event" onclick="closeEventPopup()">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            
+            <div class="event-img-box">
+                <img src="https://i.ibb.co.com/k2Xpd46f/event.webp" class="event-img" alt="Event Banner">
+                <div class="gradient-overlay"></div>
+            </div>
+
+            <div class="event-body">
+                <h3 class="event-title-text">M7 PASS TELAH HADIR</h3>
+                <p class="event-desc">
+                    Dapatkan skin Granger M7 dengan harga 399! dan dapet primenya juga loh! jangan sampai ketinggalan~
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="overlay" id="confirmPopup">
+        <div class="popup">
+            <h3 style="font-size:16px;">Konfirmasi Pesanan</h3>
+            <p style="font-size:12px; color:var(--text-sub); margin-top:5px;">Lanjutkan pembelian via WhatsApp?</p>
+            <div style="background:var(--bg-body); padding:10px; border-radius:10px; margin-top:15px; border:1px solid var(--border-color);">
+                <h4 id="confName" style="font-size:13px;">Item Name</h4>
+                <div id="confPrice" style="font-size:14px; font-weight:italic; color:var(--primary);">Rp 0</div>
+            </div>
+            <div class="btn-group">
+                <button class="btn-no" onclick="closePopup()">Batal</button>
+                <button class="btn-yes" onclick="processOrder()">Lanjut WA</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="game-header">
+        <a href="../" class="btn-back"><i class="fa-solid fa-arrow-left"></i></a>
+        <img src="https://i.ibb.co.com/QjK05s0X/topupml.webp" class="game-bg">
+        <div class="header-content">
+            <img src="https://iili.io/f8UICg4.md.png" class="game-icon">
+            <div class="game-text">
+                <h3>Mobile Legends</h3>
+                <p>5vs5 Moba!</p>
+                <div class="badges">
+                    <span class="badge"><i class="fa-solid fa-bolt" style="color:#facc15;"></i> Instant</span>
+                    <span class="badge"><i class="fa-solid fa-shield-halved" style="color:#60a5fa;"></i> Aman</span>
+                    <span class="badge"><i class="fa-solid fa-circle-check" style="color:#90EE90;"></i> Bergaransi</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="tab-box">
+        <div class="tab-item active" onclick="switchTab('transaksi')">Transaksi</div>
+        <div class="tab-item" onclick="switchTab('keterangan')">Keterangan</div>
+    </div>
+
+    <div id="view-transaksi">
+        <div class="section-box" id="inputSection">
+            <div class="num-label"><span class="num-circle">1</span> Masukkan Data Akun</div>
+            
+            <div class="input-group" style="position:relative;">
+                <input type="tel" id="userid" class="input-field" placeholder="User ID" onkeyup="debounceSearch()" autocomplete="off">
+                <input type="tel" id="zoneid" class="input-field" style="width: 45%;" placeholder="Zone ID" onkeyup="debounceSearch()" autocomplete="off">
+                
+                <div class="loader-spin" id="loadingIcon"></div>
+            </div>
+            
+            <span class="helper-text">Contoh: 12345678 (2025) - Klik profil di game untuk cek</span>
+
+            <div id="userCheckResult" class="user-check-result">
+                <img src="https://iili.io/fUxwzQe.md.jpg" class="user-avatar-img">
+                <div>
+                    <div id="mlbbName" style="font-size:13px; font-weight:700;">Username</div>
+                    <div id="mlbbIdDisplay" style="font-size:10px; color:var(--text-sub);">ID: -</div>
+                    <div class="valid-badge"><i class="fa-solid fa-circle-check"></i> Terverifikasi Oleh TOKOARDAN</div>
+                </div>
+            </div>
+        </div>
+
+        <div style="margin: 0 20px 20px; position:relative;">
+            <div class="num-label" style="position:static; display:inline-flex; width:auto; border-radius:8px;"><span class="num-circle">2</span> Pilih Nominal</div>
+        </div>
+
+        <div class="flash-container" id="flashSection">
+            <div class="flash-header">
+                <span><i class="fa-solid fa-bolt"></i> FLASH SALE</span>
+                <div class="countdown-badge" id="countdown">
+                    <i class="fa-regular fa-clock"></i> <span id="timer-text">00:00:00</span>
+                </div>
+            </div>
+            <div class="flash-grid" id="flash-list"></div>
+        </div>
+
+        <div class="cat-title">First Top Up (Double)</div>
+        <div class="normal-grid" id="first-list"></div>
+
+        <div class="cat-title">Special Items & Pass</div>
+        <div class="normal-grid" id="special-list"></div>
+
+        <div class="cat-title">Top Up Diamonds</div>
+        <div class="normal-grid" id="regular-list"></div>
+    </div>
+
+    <div id="view-keterangan">
+        <div class="info-box">
+            <div class="info-title">Cara Pemesanan</div>
+            <ol class="step-list">
+                <li>Masukkan <strong>User ID</strong> dan <strong>Zone ID</strong> Mobile Legends Anda.</li>
+                <li>Tunggu sebentar hingga Username Anda muncul (Terverifikasi).</li>
+                <li>Pilih nominal Diamond atau produk yang Anda inginkan.</li>
+                <li>Klik tombol <strong>"Pesan Sekarang"</strong> di bagian bawah.</li>
+                <li>Anda akan diarahkan ke <strong>WhatsApp Admin</strong>.</li>
+            </ol>
+        </div>
+
+        <div class="info-box">
+            <div class="info-title">FAQ (Tanya Jawab)</div>
+            <details>
+                <summary>Berapa lama prosesnya?</summary>
+                <p>Proses top up biasanya instan (1-3 menit) setelah pembayaran dikonfirmasi. Jika sedang gangguan, maksimal 24 jam :)</p>
+            </details>
+            <details>
+                <summary>Apakah aman dan legal?</summary>
+                <p>100% Aman dan Legal. Kami menggunakan metode resmi sehingga akun Anda terhindar dari banned atau minus diamond :)</p>
+            </details>
+            <details>
+                <summary>Bagaimana jika salah ID?</summary>
+                <p>Sistem kami sekarang mengecek ID otomatis. Pastikan nama yang muncul sudah benar sebelum membayar :)</p>
+            </details>
+        </div>
+    </div>
+    
+    <div class="copyright-text">
+        <i class="fa-solid fa-circle-check" style="color:#facc15; margin-right:2px;"></i> <strong>TOKOARDAN All <strong>Rights Reserved<br></strong>
+        Made with for Community
+    </div>
+    
+    <div class="footer-bar" id="footerBar">
+        <div>
+            <div style="font-size:10px; color:var(--text-sub);">Total Pembayaran</div>
+            <div id="totalPrice" style="font-size:16px; font-weight:italic; color:var(--primary);">Rp 0</div>
+        </div>
+        <button id="btnBuy" class="btn-buy" onclick="showConfirm()" disabled>Pilih Item</button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
