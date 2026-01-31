@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 Tidak Ditemukan</title>
+    <style>
+        /* Reset CSS dasar agar tampilan konsisten */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            /* Menggunakan Flexbox untuk memusatkan konten */
+            display: flex;
+            justify-content: center; /* Tengah secara horizontal */
+            align-items: center; /* Tengah secara vertikal */
+            min-height: 100vh; /* Tinggi minimal setinggi layar browser */
+            
+            /* Gaya visual dasar */
+            background-color: #f0f2f5; /* Warna latar belakang abu-abu terang yang lembut */
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            color: #333; /* Warna teks abu-abu gelap */
+        }
+
+        .container {
+            text-align: center; /* Memastikan teks dan ikon di dalamnya rata tengah */
+            padding: 20px;
+        }
+
+        /* Gaya untuk Ikon SVG */
+        .icon-svg {
+            width: 120px; /* Ukuran ikon */
+            height: 120px;
+            fill: #9ca3af; /* Warna ikon (abu-abu medium) */
+            margin-bottom: 10px; /* Jarak antara ikon dan teks 404 */
+        }
+
+        /* Gaya untuk teks 404 */
+        h1 {
+            font-size: 6rem; /* Ukuran font yang sangat besar */
+            font-weight: 800; /* Sangat tebal */
+            line-height: 1;
+            color: #1f2937; /* Warna teks yang lebih gelap */
+        }
+
+        /* Opsional: Teks kecil di bawah 404 agar lebih jelas */
+        p {
+            margin-top: 10px;
+            font-size: 1.2rem;
+            color: #6b7280;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <svg class="icon-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M12 2a9 9 0 0 0-9 9v7c0 1.66 1.34 3 3 3h3v-8h6v8h3c1.66 0 3-1.34 3-3v-7a9 9 0 0 0-9-9zm0 2c3.87 0 7 3.13 7 7v7h-1v-8h-12v8h-1v-7c0-3.87 3.13-7 7-7zm-3 6a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm6 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4z"/>
+        </svg>
+        
+        <h1>404</h1>
+        
+        <p>Halaman tidak ditemukan.</p>
+    </div>
+
+</body>
+</html>
