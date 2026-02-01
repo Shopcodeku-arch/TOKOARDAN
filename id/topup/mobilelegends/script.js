@@ -106,38 +106,78 @@ function render() {
     const cSpecial = document.getElementById('special-list');
     const cRegular = document.getElementById('regular-list');
 
-    products.forEach((item, index) => {
-        const fmtPrice = "Rp " + item.price.toLocaleString('id-ID');
-        
-        if (item.type === 'flash') {
-            const fmtOld = "Rp " + item.oldPrice.toLocaleString('id-ID');
-            cFlash.innerHTML += `
-            <div class="fs-item" onclick="selectItem(this, ${index})">
-                <img src="${item.icon}" class="fs-img">
-                <div class="fs-content">
-                    <div class="fs-name">${item.name}</div>
-                    <div class="fs-price">${fmtPrice} <span class="fs-old-price">${fmtOld}</span></div>
-                    <div class="fs-stock-bar"><div class="fs-stock-fill" style="width:${item.stock}%"></div></div>
-                    <div class="fs-stock-text"><span>Tersedia</span><span>${item.stock}x</span></div>
-                </div>
-                <div class="check-mark"><i class="fa-solid fa-check"></i></div>
-            </div>`;
-        } else {
-            let target = cRegular;
-            if(item.type === 'first') target = cFirst;
-            if(item.type === 'special') target = cSpecial;
+    // --- TAHAP 1: TAMPILKAN LOADING SHIMMER (DARK COAL) ---
+    
+    // Template Skeleton Flash Sale
+    const skFlashHTML = `
+        <div class="skeleton sk-fs">
+            <div class="sk-fs-img"></div>
+            <div class="sk-fs-content">
+                <div class="sk-line"></div>
+                <div class="sk-line short"></div>
+            </div>
+        </div>`;
 
-            target.innerHTML += `
-            <div class="card-item" onclick="selectItem(this, ${index})">
-                <div class="check-mark"><i class="fa-solid fa-check"></i></div>
-                <img src="${item.icon}" class="card-img">
-                <div>
-                    <div class="card-name">${item.name}</div>
-                    <div class="card-price">${fmtPrice}</div>
-                </div>
-            </div>`;
-        }
-    });
+    // Template Skeleton Produk Biasa
+    const skCardHTML = `
+        <div class="skeleton sk-card">
+            <div class="sk-card-img"></div>
+            <div class="sk-fs-content">
+                <div class="sk-line"></div>
+                <div class="sk-line short"></div>
+            </div>
+        </div>`;
+
+    // Masukkan skeleton ke dalam container (jumlahnya disesuaikan biar pas tampilannya)
+    // .join('') dipakai untuk mengulang string HTML
+    cFlash.innerHTML = Array(2).fill(skFlashHTML).join(''); 
+    cFirst.innerHTML = Array(4).fill(skCardHTML).join('');
+    cSpecial.innerHTML = Array(4).fill(skCardHTML).join('');
+    cRegular.innerHTML = Array(6).fill(skCardHTML).join('');
+
+    // --- TAHAP 2: TUNGGU 5 DETIK, LALU TAMPILKAN DATA ASLI ---
+    setTimeout(() => {
+        // Kosongkan container (Hapus Shimmer)
+        cFlash.innerHTML = '';
+        cFirst.innerHTML = '';
+        cSpecial.innerHTML = '';
+        cRegular.innerHTML = '';
+
+        // Loop Data Produk Asli (Kode Lama)
+        products.forEach((item, index) => {
+            const fmtPrice = "Rp " + item.price.toLocaleString('id-ID');
+            
+            if (item.type === 'flash') {
+                const fmtOld = "Rp " + item.oldPrice.toLocaleString('id-ID');
+                cFlash.innerHTML += `
+                <div class="fs-item" onclick="selectItem(this, ${index})">
+                    <img src="${item.icon}" class="fs-img">
+                    <div class="fs-content">
+                        <div class="fs-name">${item.name}</div>
+                        <div class="fs-price">${fmtPrice} <span class="fs-old-price">${fmtOld}</span></div>
+                        <div class="fs-stock-bar"><div class="fs-stock-fill" style="width:${item.stock}%"></div></div>
+                        <div class="fs-stock-text"><span>Tersedia</span><span>${item.stock}x</span></div>
+                    </div>
+                    <div class="check-mark"><i class="fa-solid fa-check"></i></div>
+                </div>`;
+            } else {
+                let target = cRegular;
+                if(item.type === 'first') target = cFirst;
+                if(item.type === 'special') target = cSpecial;
+
+                target.innerHTML += `
+                <div class="card-item" onclick="selectItem(this, ${index})">
+                    <div class="check-mark"><i class="fa-solid fa-check"></i></div>
+                    <img src="${item.icon}" class="card-img">
+                    <div>
+                        <div class="card-name">${item.name}</div>
+                        <div class="card-price">${fmtPrice}</div>
+                    </div>
+                </div>`;
+            }
+        });
+
+    }, 5000); // 5000 milidetik = 5 Detik
 }
 
 // --- 4. LOGIC VALIDASI USER (MOBILE LEGENDS) ---
