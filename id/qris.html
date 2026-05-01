@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pembayaran QRIS - TOKOARDAN</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: #1c1e21;
+        }
+        .card {
+            background: #ffffff;
+            width: 90%;
+            max-width: 380px;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+            text-align: center;
+        }
+        .brand {
+            font-weight: 800;
+            color: #0088cc;
+            margin-bottom: 5px;
+            letter-spacing: 1px;
+        }
+        h2 {
+            font-size: 1.2em;
+            margin-top: 0;
+            margin-bottom: 20px;
+            color: #4b4b4b;
+        }
+        .qris-box {
+            width: 100%;
+            background: #fff;
+            padding: 5px;
+            border: 2px solid #eee;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+        }
+        .qris-box img {
+            width: 100%;
+            display: block;
+            border-radius: 10px;
+        }
+        .info-list {
+            text-align: left;
+            background: #f7f9fb;
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+        .info-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+        .info-item:last-child {
+            margin-bottom: 0;
+        }
+        .btn-telegram {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #0088cc;
+            color: white;
+            text-decoration: none;
+            padding: 14px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: transform 0.2s, background 0.2s;
+        }
+        .btn-telegram:active {
+            transform: scale(0.98);
+            background-color: #0077b5;
+        }
+        .footer {
+            margin-top: 15px;
+            font-size: 0.75rem;
+            color: #999;
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <div class="brand">TOKOARDAN</div>
+    <h2>Metode Pembayaran</h2>
+    
+    <div class="qris-box">
+        <!-- Taruh file qris.jpg di folder yang sama dengan file ini -->
+        <img src="qris.jpg" alt="QRIS Payment">
+    </div>
+
+    <div class="info-list">
+        <div class="info-item">✅ Transfer sesuai minimum di bot @AstraJpmbot</div>
+        <div class="info-item">✅ Owner akan cek 1x24jam</div>
+        <div class="info-item">✅ Kirim bukti transfer ke bot</div>
+    </div>
+
+    <a href="https://t.me/AstraJpmbot" class="btn-telegram">
+        Disini tombol ke bot
+    </a>
+    
+    <div class="footer">
+        Otomatis cek sistem aktif
+    </div>
+</div>
+
+</body>
+</html>
